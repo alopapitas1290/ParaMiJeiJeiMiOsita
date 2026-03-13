@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para JeiJei ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rojo: #C0152A;
+    --rojo-oscuro: #8B0000;
+    --rojo-claro: #E8394D;
+    --dorado: #D4AF6A;
+    --crema: #FDF6EE;
+    --negro: #0D0D0D;
+    --gris: #2A2A2A;
+    --texto-claro: #F5EDE0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--negro);
+    color: var(--texto-claro);
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR PERSONALIZADO ─────────────────────── */
+  * { cursor: none !important; }
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--rojo-claro); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 1px solid var(--rojo-claro); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* ── FONDO ESTÁTICO ───────────────────────────── */
+  #fondo-estatico {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -2;
+    background: #0D0D0D;
+    overflow: hidden;
+  }
+  #fondo-estatico img {
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.18;
+    filter: grayscale(30%) sepia(20%);
+  }
+  /* Si no hay imagen, fondo con patrón */
+  #fondo-pattern {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(139,0,0,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(192,21,42,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, rgba(212,175,106,0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* ── NAVEGACIÓN ───────────────────────────────── */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.95), transparent);
+    backdrop-filter: blur(4px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--dorado);
+    letter-spacing: 2px;
+  }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--texto-claro);
+    text-decoration: none; opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--rojo-claro); }
+
+  /* ── HAMBURGER MENU MÓVIL ─────────────────────── */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--texto-claro); transition: 0.3s;
+  }
+  .mobile-menu {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: rgba(13,13,13,0.97);
+    z-index: 99; flex-direction: column;
+    justify-content: center; align-items: center; gap: 40px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--texto-claro);
+    text-decoration: none; transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--rojo-claro); }
+  .mobile-close {
+    position: absolute; top: 24px; right: 40px;
+    background: none; border: none;
+    font-size: 2rem; color: var(--texto-claro);
+  }
+
+  /* ── HERO ─────────────────────────────────────── */
+  #hero {
+    height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; position: relative;
+    overflow: hidden;
+  }
+
+  /* PERSONAJE ANIMADO CON SCROLL */
+  #personaje-container {
+    position: absolute; bottom: 0; right: 5%;
+    width: 220px; height: 320px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  #personaje-container video,
+  #personaje-container img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+  /* Si no hay video, mostramos corazones animados */
+  .corazon-flotante {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: flotar 4s ease-in-out infinite;
+    opacity: 0.6;
+  }
+  .corazon-flotante:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+  .corazon-flotante:nth-child(2) { left: 85%; top: 40%; animation-delay: 1s; }
+  .corazon-flotante:nth-child(3) { left: 5%; top: 70%; animation-delay: 2s; }
+  .corazon-flotante:nth-child(4) { left: 90%; top: 80%; animation-delay: 0.5s; }
+  @keyframes flotar {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+
+  .hero-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; letter-spacing: 6px;
+    text-transform: uppercase; color: var(--rojo-claro);
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+  .hero-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700; line-height: 1.05;
+    color: var(--crema);
+    animation: fadeUp 1s ease 0.6s both;
+  }
+  .hero-titulo span {
+    color: var(--rojo-claro);
+    font-style: italic;
+  }
+  .hero-subtitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300; font-style: italic;
+    color: var(--dorado); margin-top: 20px;
+    animation: fadeUp 1s ease 0.9s both;
+  }
+  .hero-linea {
+    width: 80px; height: 1px; background: var(--rojo);
+    margin: 30px auto;
+    animation: fadeUp 1s ease 1.2s both;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 4px;
+    text-transform: uppercase; opacity: 0.5;
+    animation: bounce 2s infinite;
+  }
+  .scroll-hint::after {
+    content: ''; display: block;
+    width: 1px; height: 40px;
+    background: var(--rojo-claro);
+    margin: 10px auto 0;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECCIONES GENERALES ─────────────────────── */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px; margin: 0 auto;
+    position: relative;
+  }
+  .seccion-full {
+    max-width: 100%; padding: 100px 0;
+  }
+  .seccion-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--crema); text-align: center;
+    margin-bottom: 8px;
+  }
+  .seccion-titulo span { color: var(--rojo-claro); font-style: italic; }
+  .seccion-subtitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic;
+    color: var(--dorado); text-align: center;
+    margin-bottom: 60px; opacity: 0.8;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 20px;
+    justify-content: center; margin-bottom: 60px;
+  }
+  .divider-line { flex: 1; max-width: 200px; height: 1px; background: var(--rojo-oscuro); }
+  .divider-icon { color: var(--rojo-claro); font-size: 1.2rem; }
+
+  /* ── GALERÍA DE FOTOS ─────────────────────────── */
+  #fotos { background: rgba(139,0,0,0.03); }
+
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+  .galeria-item {
+    position: relative; overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 3/4;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(192,21,42,0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s;
+  }
+  .galeria-item:nth-child(1) { grid-column: 1/2; grid-row: 1/3; aspect-ratio: auto; }
+  .galeria-item:nth-child(4) { grid-column: 3/4; grid-row: 1/3; aspect-ratio: auto; }
+  .galeria-item:nth-child(7) { grid-column: 1/3; aspect-ratio: 16/7; }
+
+  .galeria-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 60px rgba(192,21,42,0.3);
+    z-index: 2;
+  }
+  .galeria-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: filter 0.4s;
+    filter: grayscale(20%) sepia(10%);
+  }
+  .galeria-item:hover img { filter: grayscale(0%) sepia(0%); }
+  .galeria-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(139,0,0,0.5) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 20px;
+  }
+  .galeria-item:hover .galeria-overlay { opacity: 1; }
+  .galeria-overlay span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: white;
+    font-size: 0.9rem;
+  }
+
+  /* placeholder cuando no hay imagen */
+  .img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; padding: 20px; text-align: center;
+    background: linear-gradient(135deg, rgba(192,21,42,0.1), rgba(212,175,106,0.05));
+  }
+  .img-placeholder .icono { font-size: 2rem; opacity: 0.4; }
+  .img-placeholder p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 2px;
+    text-transform: uppercase; opacity: 0.5;
+  }
+
+  /* ── SECCIÓN DE VIDEOS ────────────────────────── */
+  #videos { background: rgba(0,0,0,0.2); }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+  }
+  .video-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,21,42,0.2);
+    border-radius: 8px; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .video-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(192,21,42,0.2);
+  }
+  .video-wrapper {
+    position: relative; padding-top: 56.25%;
+    background: rgba(139,0,0,0.1);
+    overflow: hidden;
+  }
+  .video-wrapper video,
+  .video-wrapper iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; border: none;
+  }
+  .video-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(139,0,0,0.2), rgba(0,0,0,0.4));
+  }
+  .video-placeholder .play-btn {
+    width: 60px; height: 60px;
+    border: 2px solid var(--rojo-claro);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: var(--rojo-claro);
+    transition: background 0.3s;
+  }
+  .video-card:hover .play-btn { background: var(--rojo); }
+  .video-placeholder p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px;
+    text-transform: uppercase; opacity: 0.6;
+  }
+  .video-info { padding: 24px; }
+  .video-numero {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--rojo-claro);
+    margin-bottom: 8px;
+  }
+  .video-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--crema);
+    margin-bottom: 10px;
+  }
+  .video-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic;
+    color: var(--dorado); line-height: 1.6;
+    opacity: 0.85;
+  }
+  .video-label {
+    display: inline-block; margin-top: 12px;
+    padding: 4px 12px;
+    border: 1px solid rgba(192,21,42,0.4);
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--rojo-claro);
+  }
+
+  /* ── VISOR DE PDF ─────────────────────────────── */
+  #documento { background: rgba(139,0,0,0.03); }
+
+  .pdf-container {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(192,21,42,0.2);
+    border-radius: 8px; overflow: hidden;
+  }
+  .pdf-header {
+    padding: 20px 30px;
+    background: rgba(192,21,42,0.1);
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    border-bottom: 1px solid rgba(192,21,42,0.2);
+  }
+  .pdf-header-left {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .pdf-icono {
+    width: 42px; height: 42px;
+    background: var(--rojo);
+    border-radius: 6px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .pdf-nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--crema);
+  }
+  .pdf-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 1px;
+    color: var(--dorado); opacity: 0.7;
+  }
+  .pdf-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    background: var(--rojo); border: none; border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 2px;
+    text-transform: uppercase; color: white;
+    text-decoration: none; transition: background 0.3s;
+  }
+  .pdf-btn:hover { background: var(--rojo-claro); }
+  .pdf-viewer {
+    width: 100%; height: 600px;
+    background: rgba(0,0,0,0.3);
+    display: flex; align-items: center;
+    justify-content: center; flex-direction: column;
+    gap: 16px;
+  }
+  .pdf-viewer iframe {
+    width: 100%; height: 100%; border: none;
+  }
+  .pdf-upload-hint {
+    text-align: center; padding: 60px 20px;
+  }
+  .pdf-upload-hint .icono-grande { font-size: 4rem; opacity: 0.2; }
+  .pdf-upload-hint p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.1rem;
+    color: var(--dorado); opacity: 0.6;
+    margin-top: 16px;
+  }
+
+  /* ── COLUMNAS JEIJEI / ALO ─────────────────────── */
+  #nosotros { background: rgba(0,0,0,0.15); }
+
+  .columnas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .columna {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(192,21,42,0.15);
+    border-radius: 12px; overflow: hidden;
+  }
+  .columna-header {
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(192,21,42,0.15), rgba(139,0,0,0.05));
+    border-bottom: 1px solid rgba(192,21,42,0.2);
+    text-align: center;
+  }
+  .columna-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--crema);
+    margin-bottom: 6px;
+  }
+  .columna-header .rol {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; color: var(--dorado);
+    font-size: 0.95rem;
+  }
+  .columna-foto {
+    width: 100px; height: 100px;
+    border-radius: 50%; overflow: hidden;
+    border: 3px solid var(--rojo);
+    margin: 0 auto 16px;
+    background: rgba(192,21,42,0.1);
+    display: flex; align-items: center;
+    justify-content: center; font-size: 2.5rem;
+  }
+  .columna-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .columna-body { padding: 24px; }
+  .columna-item {
+    display: flex; align-items: flex-start;
+    gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .columna-item:last-child { border-bottom: none; }
+  .columna-bullet {
+    width: 6px; height: 6px;
+    background: var(--rojo-claro);
+    border-radius: 50%; margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .columna-item p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; line-height: 1.6;
+    color: var(--texto-claro); opacity: 0.85;
+  }
+  .columna-imgs {
+    padding: 20px 24px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .columna-img-item {
+    aspect-ratio: 1; border-radius: 6px;
+    overflow: hidden; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(192,21,42,0.1);
+    display: flex; align-items: center;
+    justify-content: center;
+  }
+  .columna-img-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .columna-img-item:hover img { transform: scale(1.1); }
+  .add-foto-btn {
+    width: 100%; height: 100%;
+    background: none; border: none;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px; opacity: 0.4;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--texto-claro);
+  }
+  .add-foto-btn span { font-size: 1.4rem; }
+
+  /* ── MENSAJE FINAL ────────────────────────────── */
+  #mensaje {
+    text-align: center;
+    padding: 120px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mensaje-fondo {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(192,21,42,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .mensaje-texto {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-style: italic; line-height: 1.5;
+    color: var(--crema); max-width: 700px;
+    margin: 0 auto 40px;
+  }
+  .mensaje-firma {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--dorado);
+    opacity: 0.8;
+  }
+  .corazones-fila {
+    display: flex; justify-content: center;
+    gap: 12px; margin: 30px 0;
+    font-size: 1.4rem;
+  }
+  .corazones-fila span {
+    animation: pulsar 1.5s ease-in-out infinite;
+    color: var(--rojo-claro);
+  }
+  .corazones-fila span:nth-child(2) { animation-delay: 0.3s; }
+  .corazones-fila span:nth-child(3) { animation-delay: 0.6s; }
+  @keyframes pulsar {
+    0%,100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  /* ── FOOTER ───────────────────────────────────── */
+  footer {
+    padding: 40px; text-align: center;
+    border-top: 1px solid rgba(192,21,42,0.15);
+  }
+  footer p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px;
+    text-transform: uppercase; opacity: 0.4;
+  }
+
+  /* ── ANIMACIONES DE SCROLL ────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0; transform: translateX(-40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0; transform: translateX(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── RESPONSIVE ───────────────────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 70px 20px; }
+
+    #personaje-container { width: 130px; height: 200px; right: 2%; }
+
+    .galeria-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .galeria-item:nth-child(1),
+    .galeria-item:nth-child(4) {
+      grid-column: auto; grid-row: auto;
+      aspect-ratio: 3/4;
+    }
+    .galeria-item:nth-child(7) {
+      grid-column: 1/-1; aspect-ratio: 16/9;
+    }
+
+    .videos-grid { grid-template-columns: 1fr; gap: 24px; }
+
+    .columnas-grid { grid-template-columns: 1fr; gap: 24px; }
+
+    .pdf-header { flex-direction: column; }
+    .pdf-viewer { height: 350px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-titulo { font-size: 2.8rem; }
+    .galeria-grid { grid-template-columns: 1fr; }
+    .galeria-item:nth-child(n) {
+      grid-column: auto; grid-row: auto;
+      aspect-ratio: 4/3;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- FONDO ESTÁTICO -->
+<div id="fondo-estatico">
+  <!--
+    === FONDO ESTÁTICO ===
+    Reemplaza el src con la ruta de tu imagen de fondo:
+    <img src="tu-imagen-de-fondo.jpg" alt="fondo">
+  -->
+</div>
+<div id="fondo-pattern"></div>
+
+<!-- NAVEGACIÓN -->
+<nav>
+  <div class="nav-logo">JeiJei & Alo</div>
+  <ul class="nav-links">
+    <li><a href="#fotos">Fotos</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#documento">Documento</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#mensaje">Mensaje</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MENÚ MÓVIL -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#fotos" onclick="toggleMenu()">Fotos</a>
+  <a href="#videos" onclick="toggleMenu()">Videos</a>
+  <a href="#documento" onclick="toggleMenu()">Documento</a>
+  <a href="#nosotros" onclick="toggleMenu()">Nosotros</a>
+  <a href="#mensaje" onclick="toggleMenu()">Mensaje</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="corazon-flotante">♥</div>
+  <div class="corazon-flotante">卐</div>
+  <div class="corazon-flotante">卐</div>
+  <div class="corazon-flotante">♥</div>
+
+  <p class="hero-tagline">para mi Osita</p>
+  <h1 class="hero-titulo">
+    Para<br><span>JeiJei</span>
+  </h1>
+  <p class="hero-subtitulo">con mucho amor 卐卐卐卐</p>
+  <div class="hero-linea"></div>
+
+  <!--
+    === PERSONAJE ANIMADO ===
+    Opción 1 - Video que se mueve con scroll (reemplaza src):
+    <div id="personaje-container">
+      <video id="personaje-video" src="tu-personaje.webm" muted playsinline></video>
+    </div>
+
+    Opción 2 - GIF animado:
+    <div id="personaje-container">
+      <img src="tu-personaje.gif" alt="personaje">
+    </div>
+  -->
+  <div id="personaje-container">
+    <div style="width:100%;height:100%;display:flex;align-items:flex-end;justify-content:center;">
+      <div style="text-align:center;opacity:0.3;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.8rem;color:var(--dorado);padding:10px;">
+        pon aquí tu<br>personaje animado
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- FOTOS -->
+<section id="fotos" class="seccion-full" style="max-width:1200px;margin:0 auto;padding:100px 40px;">
+  <div class="reveal">
+    <h2 class="seccion-titulo">Nuestros <span>momentos</span></h2>
+    <p class="seccion-subtitulo">cada foto, un recuerdo que atesoro</p>
+  </div>
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <span class="divider-icon">♥</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="galeria-grid">
+    <!-- FOTO 1 — reemplaza src="img1.jpg" con tu imagen -->
+    <div class="galeria-item reveal">
+      <img src="img1.jpg" alt="Nosotros">
+      <!-- <img src="foto1.jpg" alt="Nosotros"> -->
+      <div class="galeria-overlay"><span>nuestro primer recuerdo</span></div>
+    </div>
+
+    
+    <!-- FOTO 2 -->
+    <div class="galeria-item reveal" style="transition-delay:0.1s">
+      <img src="img3.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>siempre juntos</span></div>
+    </div>
+    <!-- FOTO 3 -->
+
+    
+    <div class="galeria-item reveal" style="transition-delay:0.2s">
+      <img src="img51.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>mi favorita</span></div>
+    </div>
+    <!-- FOTO 4 -->
+    <div class="galeria-item reveal" style="transition-delay:0.15s">
+     <img src="img4.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>ese día especial</span></div>
+    </div>
+    <!-- FOTO 5 -->
+    <div class="galeria-item reveal" style="transition-delay:0.25s">
+      <img src="img6.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>sonrisa que adoro</span></div>
+    </div>
+    
+    <!-- FOTO 6 -->
+    <div class="galeria-item reveal" style="transition-delay:0.3s">
+      <img src="img7.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>siempre tú</span></div>
+    </div>
+    
+     <div class="galeria-item reveal" style="grid-column:1/3;aspect-ratio:16/7;transition-delay:0.35s">
+      <img src="p11.jpeg" alt="Nosotros">
+      <div class="galeria-overlay"><span>nuestro mundo</span></div>
+    </div>
+
+    <!-- FOTO 8 — panorámica completa -->
+    <div class="galeria-item reveal" style="grid-column:1/-1;aspect-ratio:21/7;transition-delay:0.4s">
+      <img src="imgx1.jpg" alt="Nosotros">
+      <div class="galeria-overlay"><span>para siempre</span></div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="reveal">
+    <h2 class="seccion-titulo">Nuestra <span>danza</span></h2>
+    <p class="seccion-subtitulo">para que no olvides estos momentos jeijei</p>
+  </div>
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <span class="divider-icon">♪</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="videos-grid">
+    <!-- VIDEO 1 -->
+    <div class="video-card reveal">
+      <div class="video-wrapper">
+        <!--
+          === CÓMO PONER TU VIDEO ===
+          Opción A — archivo local:
+          <video src="video1.mp4" controls></video>
+
+          Opción B — YouTube (reemplaza el ID):
+          <iframe src="https://www.youtube.com/embed/TU_ID_AQUI" allowfullscreen></iframe>
+        -->
+         <video src="v1.mp4" controls></video>
+      </div>
+      <div class="video-info">
+        <p class="video-numero">Video 01</p>
+        <h3 class="video-titulo">Nuestro primer baile</h3>
+        <p class="video-desc">La primera vez que bailamos juntos, me gusto mucho
+            de echo no creo encontrar palabras para lo que paso ese dia, fue simplemente
+            hermoso, ese beso que me diste jamas lo olvidaré, TE AMO, mi JeiJei
+            y recuerdo que te vi bailar boquita de miel bailaste muy bien tambien
+            me gusto nuestra llamada despues de esa presentacion. 
+        </p>
+        <span class="video-label">Danza folclórica</span>
+      </div>
+    </div>
+
+    <!-- VIDEO 2 -->
+    <div class="video-card reveal" style="transition-delay:0.15s">
+      <div class="video-wrapper">
+        <video src="v3.mp4" controls></video>
+      </div>
+      <div class="video-info">
+        <p class="video-numero">Video 02</p>
+        <h3 class="video-titulo">Kullawada</h3>
+        <p class="video-desc"> Nunca te lo dije, pero yo le rogue al Abel Nina para que pudieramos cambiar de lugar y asi yo pueda bailar contigo
+            no sabes como le insisti, pero me dijo que no,insisti mucho y me di cuenta que ya
+            no podia hacer nada para bailar juntos esa danza que prometi bailar contigo "kullawada", no sabes como me
+            dolio no poder bailarla contigo como tu pareja y siempre me dolera de eso...porque te amo.
+        </p>
+        <span class="video-label">Danza folclórica</span>
+      </div>
+    </div>
+
+    <!-- VIDEO 3 -->
+    <div class="video-card reveal" style="transition-delay:0.3s">
+      <div class="video-wrapper">
+        
+            <video src="v2.mp4" controls></video>
+        
+      </div>
+      <div class="video-info">
+        <p class="video-numero">Video 03</p>
+        <h3 class="video-titulo">Un video con mucho amor</h3>
+        <p class="video-desc">si no recuerdo mal eran las 3 de la mañana XD, y estaba pensando en ti
+            , en tus ojitos, vi mi guitarra y decidi dedicarte esa cancion "la cantarina" una cancion que en lo 
+            particular me gusta mucho y me gusta el echo de dedicartelo a ti amore mio, lo pongo aca para
+            que nunca se te olvide.
+        </p>
+        <span class="video-label">Video</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTO PDF -->
+<section id="documento">
+  <div class="reveal">
+    <h2 class="seccion-titulo">Un <span>documento</span> especial</h2>
+    <p class="seccion-subtitulo">para que no se te olvide, ni a ti ni a mi </p>
+  </div>
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <span class="divider-icon">📄</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="pdf-container reveal">
+    <div class="pdf-header">
+      <div class="pdf-header-left">
+        <div class="pdf-icono">📄</div>
+        <div>
+          <p class="pdf-nombre">Para JeiJei — con amor</p>
+          <p class="pdf-meta">documento especial · reemplaza src en el iframe</p>
+        </div>
+      </div>
+      <!--
+        === BOTÓN DE DESCARGA ===
+        Cambia href="tu-documento.pdf"
+      -->
+      <a href="pol.pdf" class="pdf-btn" download>
+        ↓ Descargar
+      </a>
+    </div>
+    <div class="pdf-viewer">
+      <!--
+        === VISOR PDF ===
+        Reemplaza src con la ruta de tu PDF:
+        <iframe src="tu-documento.pdf#toolbar=0"></iframe>
+
+        Si no tienes PDF aún, deja este bloque:
+      -->
+      <iframe src="pol.pdf#toolbar=0"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- COLUMNAS JEIJEI / ALO -->
+<section id="nosotros">
+  <div class="reveal">
+    <h2 class="seccion-titulo">Ellos <span>dos</span></h2>
+    <p class="seccion-subtitulo">uno del barca otro del madrid</p>
+  </div>
+  <div class="divider reveal">
+    <div class="divider-line"></div>
+    <span class="divider-icon">♥</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="columnas-grid">
+    <!-- COLUMNA JEIJEI -->
+    <div class="columna reveal-left">
+      <div class="columna-header">
+        <div class="columna-foto">
+          <img src="jei.jpg" alt="JeiJei">
+        </div>
+        <h3>JeiJei</h3>
+        <p class="rol">mi persona favorita</p>
+      </div>
+      <div class="columna-body">
+      
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Mi Jei Jei</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Fiel al Barcelona (espoiler que tendras algo en tu cumpleaños por eso :O)</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>le gusta morder (eso me gusta)</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Apoya al Führer osea Hitler (tambien me gusta eso xd)</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>lee BL xd</p>
+        </div>
+      </div>
+      <!-- Imágenes de JeiJei -->
+      <div class="columna-imgs">
+        <div class="columna-img-item">
+          <img src="a1.jpeg" alt="JeiJei">
+        </div>
+        <div class="columna-img-item">
+          <img src="j3.jpeg" alt="JeiJei">
+        </div>
+        <div class="columna-img-item">
+          <img src="j4.jpeg" alt="JeiJei">
+        </div>
+        <div class="columna-img-item">
+          <img src="j5.jpeg" alt="JeiJei"> 
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA ALO -->
+    <div class="columna reveal-right">
+      <div class="columna-header">
+        <div class="columna-foto">
+          <img src="alo.jpg" alt="Alo">
+        </div>
+        <h3>Alo</h3>
+        <p class="rol">el que te ama</p>
+      </div>
+      <div class="columna-body">
+        <!--
+          === EDITA ESTAS COSAS DE ALO ===
+        -->
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Guapo, poderoso, asombroso</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Muy hermoso, soy precioso, armonioso</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Un buen socio, misterioso, buena gente</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Detergente, muy majete, inteligente</p>
+        </div>
+        <div class="columna-item">
+          <div class="columna-bullet"></div>
+          <p>Muy perfecto es lo que soy</p>
+        </div>
+      </div>
+      <!-- Imágenes de Alo -->
+      <div class="columna-imgs">
+        <div class="columna-img-item">
+          <img src="j1.jpeg" alt="Alo">
+        </div>
+        <div class="columna-img-item">
+          <!-- <img src="alo2.jpg" alt="Alo"> -->
+            <img src="a3.jpeg" alt="Alo">
+        </div>
+        <div class="columna-img-item">
+          <!-- <img src="alo3.jpg" alt="Alo"> -->
+          <img src="a2.jpeg" alt="Alo">
+        </div>
+        <div class="columna-img-item">
+          <!-- <img src="alo4.jpg" alt="Alo"> -->
+          <img src="a4.jpeg" alt="Alo">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENSAJE FINAL -->
+<section id="mensaje">
+  <div class="mensaje-fondo"></div>
+  <div class="reveal">
+    <p class="mensaje-texto">
+      "sabes porque me gustan tus ojos? </br> porque en ellos veo el reflejo de lo que tanto esperé.</br>
+      Me refiero a que al verte, me siento completamente seguro de lo que quiero.
+      </br>
+      Quiero mas que una noche contigo...las quiero todas, sean buenas o malas, las quiero
+      mientras sea contigo"
+    </p>
+    <div class="corazones-fila">
+      <span>♥</span><span>♥</span><span>♥</span>
+    </div>
+    <p class="mensaje-firma">— echo con mucho amor :D, Alo</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>hecho con amor para JeiJei · 2026</p>
+</footer>
+
+<script>
+// ── CURSOR ────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a, button, .galeria-item, .video-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px'; cursor.style.height = '20px';
+    ring.style.width = '56px'; ring.style.height = '56px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+// ── MENÚ MÓVIL ────────────────────────────────────
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+// ── PERSONAJE ANIMADO CON SCROLL ──────────────────
+// Si usas video como personaje, controla el tiempo con scroll:
+const personajeVideo = document.getElementById('personaje-video');
+if (personajeVideo) {
+  personajeVideo.pause();
+  window.addEventListener('scroll', () => {
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = window.scrollY / scrollMax;
+    personajeVideo.currentTime = progress * personajeVideo.duration;
+  });
+}
+
+// ── PARALLAX SUAVE EN HERO ────────────────────────
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const hero = document.getElementById('hero');
+  if (hero) {
+    hero.style.transform = `translateY(${y * 0.3}px)`;
+    hero.style.opacity = 1 - (y / window.innerHeight) * 1.2;
+  }
+  // Personaje sube con scroll
+  const personaje = document.getElementById('personaje-container');
+  if (personaje) {
+    personaje.style.transform = `translateY(${-y * 0.2}px)`;
+  }
+});
+</script>
+</body>
+</html>
